@@ -1,0 +1,23 @@
+@import "tailwindcss" source(none);
+@source "./*.{php,js}";
+@plugin "daisyui"{
+  themes: all;
+}
+
+.badge-success {
+  background-color: #4caf50;
+  color: #ffffff;
+}
+
+.badge-warning {
+  background-color: #ff9800;
+  color: #ffffff;
+}
+
+.badge-error {
+  background-color: #f44336;
+  color: #ffffff;
+}
+
+
+
