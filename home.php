@@ -7,6 +7,8 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
+$profilePhoto = isset($_SESSION['profile_photo']) ? $_SESSION['profile_photo'] : 'assets/img/pfp.png'; // Default photo
+
 require 'db_connection.php';
 
 // Automatically update expired tasks
@@ -33,7 +35,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body class="relative">
-    <div class="navbar bg-base-100 shadow-sm px-4 fixed top-0 z-10 w-full">
+    <div class="navbar bg-base-100 shadow-sm px-4 fixed top-0 z-10 w-full hidden md:flex">
         <div class="navbar-start">
             <div class="dropdown">
                 <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
@@ -103,13 +105,25 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <span class="text-sm font-medium"><?php echo htmlspecialchars($username); ?></span>
             <a href="edit_profile.php" class="avatar cursor-pointer">
                 <div class="w-10 rounded-full">
-                    <img src="assets/img/pfp.png" />
+                    <img src="<?php echo htmlspecialchars($profilePhoto); ?>" alt="Profile Photo">
                 </div>
             </a>
         </div>
     </div>
 
-    <section class="relative flex flex-col items-center w-screen h-dvh bg-base-300 pt-22 px-4 gap-6">
+    <div class="dock md:hidden">
+  <button class="dock-active">
+    <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><polyline points="1 11 12 2 23 11" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"></polyline><path d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path><line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></line></g></svg>
+    <span class="dock-label">Home</span>
+  </button>
+  
+  <button>
+    <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle><path d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path></g></svg>
+    <span class="dock-label">Settings</span>
+  </button>
+</div>
+
+    <section class="relative flex flex-col items-center w-screen h-dvh bg-base-300 md:pt-22 pt-11 px-4 gap-6">
         <div class="flex gap-2 w-full">
             <label class="input grow w-full">
                 <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -205,14 +219,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     </div>
                 </div>
             <?php endforeach; ?>
-        </div>
-
-        <div class="join">
-            <button class="join-item btn btn-active">1</button>
-            <button class="join-item btn ">2</button>
-            <button class="join-item btn">3</button>
-            <button class="join-item btn">4</button>
-        </div>
+            </div>
 
     </section>
 

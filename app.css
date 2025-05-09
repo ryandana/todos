@@ -7,16 +7,19 @@
 .badge-success {
   background-color: #4caf50;
   color: #ffffff;
+  font-weight: 600;
 }
 
 .badge-warning {
   background-color: #ff9800;
   color: #ffffff;
+  font-weight: 600;
 }
 
 .badge-error {
   background-color: #f44336;
   color: #ffffff;
+  font-weight: 600;
 }
 
 

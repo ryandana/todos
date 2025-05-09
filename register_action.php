@@ -8,25 +8,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     $createdAt = date("Y-m-d H:i:s");
 
-    // Cek apakah email atau username sudah digunakan
-    $check = $conn->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
-    $check->bind_param("ss", $email, $username);
-    $check->execute();
-    $result = $check->get_result();
+    // Check if email or username already exists
+    $check = $pdo->prepare("SELECT * FROM users WHERE email = ? OR username = ?");
+    $check->execute([$email, $username]);
+    $result = $check->fetch(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
+    if ($result) {
         echo "Email or Username already exists!";
     } else {
-        $stmt = $conn->prepare("INSERT INTO users (email, username, password, date_created) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss", $email, $username, $hashedPassword, $createdAt);
-
-        if ($stmt->execute()) {
+        $stmt = $pdo->prepare("INSERT INTO users (email, username, password, date_created) VALUES (?, ?, ?, ?)");
+        if ($stmt->execute([$email, $username, $hashedPassword, $createdAt])) {
             header("Location: register.php?success=1");
-            
+            exit();
         } else {
             header("Location: register.php?failed=1");
             exit();
         }
     }
 }
-?>
