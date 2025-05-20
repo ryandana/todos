@@ -107,6 +107,8 @@
             <p class="text-center" href="register.php">Don't have an account? <a class="transition-all duration-600 text-purple-400 hover:text-purple-600" href="register.php">Register</a></p>
         </fieldset>
     </form>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

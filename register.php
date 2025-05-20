@@ -121,6 +121,8 @@
             <p class="text-center" href="register.php">Already have an account? <a class="transition-all duration-600 text-purple-400 hover:text-purple-600" href="index.php">Login</a></p>
         </fieldset>
     </form>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

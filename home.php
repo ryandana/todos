@@ -1,15 +1,36 @@
 <?php
 session_start();
+require 'db_connection.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect to login if not authenticated
+    header("Location: login.php");
     exit;
 }
 
+// Fetch username and profile photo from session or database
 $username = isset($_SESSION['username']) ? $_SESSION['username'] : 'Guest';
-$profilePhoto = isset($_SESSION['profile_photo']) ? $_SESSION['profile_photo'] : 'assets/img/pfp.png'; // Default photo
+$profilePhoto = 'assets/img/pfp.png'; // Default
 
-require 'db_connection.php';
+if (
+    isset($_SESSION['profile_photo']) &&
+    !empty($_SESSION['profile_photo']) &&
+    file_exists($_SESSION['profile_photo'])
+) {
+    $profilePhoto = $_SESSION['profile_photo'];
+} else {
+    // Fetch from DB if not in session or file missing
+    $stmt = $pdo->prepare("SELECT username, profile_photo FROM users WHERE id_user = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($user) {
+        $username = $user['username'];
+        if (!empty($user['profile_photo']) && file_exists($user['profile_photo'])) {
+            $profilePhoto = $user['profile_photo'];
+            $_SESSION['profile_photo'] = $profilePhoto;
+        }
+        $_SESSION['username'] = $username;
+    }
+}
 
 // Automatically update expired tasks
 $currentDate = date('Y-m-d');
@@ -112,16 +133,15 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <div class="dock md:hidden">
-  <button class="dock-active">
-    <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><polyline points="1 11 12 2 23 11" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"></polyline><path d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path><line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></line></g></svg>
-    <span class="dock-label">Home</span>
-  </button>
-  
-  <button>
-    <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle><path d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path></g></svg>
-    <span class="dock-label">Settings</span>
-  </button>
-</div>
+        <button class="dock-active">
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><polyline points="1 11 12 2 23 11" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"></polyline><path d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path><line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></line></g></svg>
+            <span class="dock-label">Home</span>
+        </button>
+        <button>
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle><path d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path></g></svg>
+            <span class="dock-label">Settings</span>
+        </button>
+    </div>
 
     <section class="relative flex flex-col items-center w-screen h-dvh bg-base-300 md:pt-22 pt-11 px-4 gap-6">
         <div class="flex gap-2 w-full">
@@ -156,7 +176,6 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </dialog>
         </div>
-
 
         <div id="task-list" class="flex flex-col gap-4 w-full">
             <?php foreach ($tasks as $task): ?>
@@ -208,27 +227,24 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <h3 class="text-lg font-bold">Delete Task?</h3>
                                 <p class="py-4">Are you sure you want to delete this task?</p>
                                 <div class="modal-action">
-                                    <button class="btn" onclick="document.getElementById('delete_modal_<?php echo $task['id']; ?>').close()">Close</button>
-                                    <form action="delete_task.php" method="get">
-                                        <input type="hidden" name="id" value="<?php echo $task['id']; ?>" />
-                                        <button type="submit" class="btn btn-error">Delete</button>
+                                    <form action="delete_task.php" method="post">
+                                        <input type="hidden" name="id" value="<?php echo $task['id']; ?>">
+                                        <button type="submit" class="btn btn-error">Yes, Delete</button>
                                     </form>
+                                    <button onclick="document.getElementById('delete_modal_<?php echo $task['id']; ?>').close()" class="btn">Cancel</button>
                                 </div>
                             </div>
                         </dialog>
                     </div>
                 </div>
             <?php endforeach; ?>
-            </div>
-
+        </div>
     </section>
-
 
     <script>
         function filterTasks() {
             const searchInput = document.getElementById('search').value.toLowerCase();
             const tasks = document.querySelectorAll('.task-item');
-
             tasks.forEach(task => {
                 const title = task.getAttribute('data-title');
                 if (title.includes(searchInput)) {

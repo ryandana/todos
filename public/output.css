@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.4 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.7 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -1407,6 +1407,9 @@
   .w-1\/4 {
     width: calc(1/4 * 100%);
   }
+  .w-1\/6 {
+    width: calc(1/6 * 100%);
+  }
   .w-2 {
     width: calc(var(--spacing) * 2);
   }
@@ -1561,9 +1564,6 @@
   .pt-11 {
     padding-top: calc(var(--spacing) * 11);
   }
-  .pt-22 {
-    padding-top: calc(var(--spacing) * 22);
-  }
   .text-center {
     text-align: center;
   }
@@ -1651,7 +1651,7 @@
     }
   }
   .transition {
-    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter;
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to, opacity, box-shadow, transform, translate, scale, rotate, filter, -webkit-backdrop-filter, backdrop-filter, display, visibility, content-visibility, overlay, pointer-events;
     transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
     transition-duration: var(--tw-duration, var(--default-transition-duration));
   }
@@ -1696,86 +1696,6 @@
       }
     }
   }
-  .md\:dock {
-    @media (width >= 48rem) {
-      position: fixed;
-      right: calc(0.25rem * 0);
-      bottom: calc(0.25rem * 0);
-      left: calc(0.25rem * 0);
-      z-index: 1;
-      display: flex;
-      width: 100%;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      background-color: var(--color-base-100);
-      padding: calc(0.25rem * 2);
-      color: currentColor;
-      border-top: 0.5px solid var(--color-base-content);
-      @supports (color: color-mix(in lab, red, red)) {
-        border-top: 0.5px solid color-mix(in oklab, var(--color-base-content) 5%, #0000);
-      }
-      height: 4rem;
-      height: calc(4rem + env(safe-area-inset-bottom));
-      padding-bottom: env(safe-area-inset-bottom);
-      > * {
-        position: relative;
-        margin-bottom: calc(0.25rem * 2);
-        display: flex;
-        height: 100%;
-        max-width: calc(0.25rem * 32);
-        flex-shrink: 1;
-        flex-basis: 100%;
-        cursor: pointer;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1px;
-        border-radius: var(--radius-box);
-        background-color: transparent;
-        transition: opacity 0.2s ease-out;
-        &:where(.dock-active) {
-          &:after {
-            content: "";
-            position: absolute;
-            height: calc(0.25rem * 1);
-            width: calc(0.25rem * 10);
-            border-radius: calc(infinity * 1px);
-            background-color: currentColor;
-            bottom: 0.2rem;
-            border-top: 3px solid;
-          }
-        }
-        @media (hover: hover) {
-          &:hover {
-            opacity: 80%;
-          }
-        }
-        &[aria-disabled="true"], &[disabled] {
-          &, &:hover {
-            pointer-events: none;
-            color: var(--color-base-content);
-            @supports (color: color-mix(in lab, red, red)) {
-              color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-            }
-            opacity: 100%;
-          }
-        }
-        .dock-label {
-          font-size: 0.6875rem;
-        }
-      }
-    }
-  }
-  .md\:navbar {
-    @media (width >= 48rem) {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      padding: 0.5rem;
-      min-height: 4rem;
-    }
-  }
   .md\:flex {
     @media (width >= 48rem) {
       display: flex;
@@ -1789,86 +1709,6 @@
   .md\:pt-22 {
     @media (width >= 48rem) {
       padding-top: calc(var(--spacing) * 22);
-    }
-  }
-  .lg\:dock {
-    @media (width >= 64rem) {
-      position: fixed;
-      right: calc(0.25rem * 0);
-      bottom: calc(0.25rem * 0);
-      left: calc(0.25rem * 0);
-      z-index: 1;
-      display: flex;
-      width: 100%;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-around;
-      background-color: var(--color-base-100);
-      padding: calc(0.25rem * 2);
-      color: currentColor;
-      border-top: 0.5px solid var(--color-base-content);
-      @supports (color: color-mix(in lab, red, red)) {
-        border-top: 0.5px solid color-mix(in oklab, var(--color-base-content) 5%, #0000);
-      }
-      height: 4rem;
-      height: calc(4rem + env(safe-area-inset-bottom));
-      padding-bottom: env(safe-area-inset-bottom);
-      > * {
-        position: relative;
-        margin-bottom: calc(0.25rem * 2);
-        display: flex;
-        height: 100%;
-        max-width: calc(0.25rem * 32);
-        flex-shrink: 1;
-        flex-basis: 100%;
-        cursor: pointer;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1px;
-        border-radius: var(--radius-box);
-        background-color: transparent;
-        transition: opacity 0.2s ease-out;
-        &:where(.dock-active) {
-          &:after {
-            content: "";
-            position: absolute;
-            height: calc(0.25rem * 1);
-            width: calc(0.25rem * 10);
-            border-radius: calc(infinity * 1px);
-            background-color: currentColor;
-            bottom: 0.2rem;
-            border-top: 3px solid;
-          }
-        }
-        @media (hover: hover) {
-          &:hover {
-            opacity: 80%;
-          }
-        }
-        &[aria-disabled="true"], &[disabled] {
-          &, &:hover {
-            pointer-events: none;
-            color: var(--color-base-content);
-            @supports (color: color-mix(in lab, red, red)) {
-              color: color-mix(in oklab, var(--color-base-content) 10%, transparent);
-            }
-            opacity: 100%;
-          }
-        }
-        .dock-label {
-          font-size: 0.6875rem;
-        }
-      }
-    }
-  }
-  .lg\:navbar {
-    @media (width >= 64rem) {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      padding: 0.5rem;
-      min-height: 4rem;
     }
   }
 }

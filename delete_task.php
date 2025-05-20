@@ -1,7 +1,7 @@
 <?php
 require 'db_connection.php';
 
-$id = $_GET['id'];
+$id = $_POST['id'];
 $stmt = $pdo->prepare("DELETE FROM todos WHERE id = ?");
 $stmt->execute([$id]);
 

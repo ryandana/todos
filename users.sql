@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Bulan Mei 2025 pada 01.39
+-- Waktu pembuatan: 19 Bulan Mei 2025 pada 17.28
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -32,17 +32,19 @@ CREATE TABLE `users` (
   `email` varchar(200) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(100) NOT NULL,
-  `date_created` date NOT NULL DEFAULT current_timestamp()
+  `date_created` date NOT NULL DEFAULT current_timestamp(),
+  `profile_photo` varchar(255) DEFAULT 'assets/img/pfp.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id_user`, `email`, `username`, `password`, `date_created`) VALUES
-(7, 'ryandnpx@gmail.com', 'yuusha', '$2y$10$kPZ9Bu4kAS1KZ8RoDDimXeeFAMdgul.ldfs2o.H0Xv7AbLDfRCKBS', '2025-04-17'),
-(8, 'fufufafa@gmail.com', 'fufufafa', '$2y$10$YBEFDi2TIN6QIubGMW9Wk.QYBH9bsf1rfR7yTpwqCupz2K3290Gl2', '2025-04-17'),
-(9, 'arjuna1400@gmail.com', 'Arjuna', '$2y$10$xWu0nuCW2KSE5dOsBsUFK.AgXW3uNODZ82FBbtWizS4q4eYi809xq', '2025-04-17');
+INSERT INTO `users` (`id_user`, `email`, `username`, `password`, `date_created`, `profile_photo`) VALUES
+(7, 'ryandnpx@gmail.com', 'kurniawan', '$2y$10$kPZ9Bu4kAS1KZ8RoDDimXeeFAMdgul.ldfs2o.H0Xv7AbLDfRCKBS', '2025-04-17', 'uploads/profile_7.jpg'),
+(10, 'blabla@gmail.com', 'yuusha', '$2y$10$iA6IoMWigYU3w3gl/UUE4.b3aMj1lJQuIPsWiwIFlZEFmxUlzSDo6', '2025-05-16', 'assets/img/pfp.png'),
+(11, 'yoru@gmail.com', 'reksa', '$2y$10$o8BVrJVmTT.4KB7b/7WBUOXj2D3vx9bcGW7If2D2LPqg//53Yn5f.', '2025-05-16', 'uploads/profile_11.jpg'),
+(12, 'arve@valo.com', 'arve', '$2y$10$FMbQRZLEVO5a3TS3R7oid.HFQ3Y1Nz02JyAauUId4.HSPPSBd0R0a', '2025-05-16', 'uploads/profile_12.jpg');
 
 --
 -- Indexes for dumped tables
@@ -62,7 +64,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
