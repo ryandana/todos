@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_FILES['profile_photo']) && $_FILES['profile_photo']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = 'uploads/';
-        $userId = $_SESSION['user_id']; // Assuming user_id is stored in the session
+        $userId = $_SESSION['user_id'];
         $fileExtension = strtolower(pathinfo($_FILES['profile_photo']['name'], PATHINFO_EXTENSION));
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
 
@@ -25,6 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Ensure the uploads directory exists
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0777, true);
+            }
+
+            // Delete old profile photo if not default
+            $stmt = $pdo->prepare("SELECT profile_photo FROM users WHERE id_user = ?");
+            $stmt->execute([$userId]);
+            $oldPhoto = $stmt->fetchColumn();
+            if ($oldPhoto && $oldPhoto !== 'assets/img/pfp.png' && file_exists($oldPhoto)) {
+                unlink($oldPhoto);
             }
 
             // Move uploaded file to the uploads directory
@@ -53,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Edit Profile</title>
     <link rel="stylesheet" href="public/output.css">
     <link rel="shortcut icon" href="assets/favicon/favicon-32x32.png" type="image/x-icon">
-    <script src="https://kit.fontawesome.com/2278b63586.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/all.css">
 </head>
 
 <body class="bg-base-300 min-h-screen flex items-center justify-center">
@@ -66,7 +74,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-control flex flex-col items-center">
                     <div class="avatar flex justify-center">
                         <div class="w-24 rounded-full">
-                            <img id="profilePreview" src="<?php echo isset($_SESSION['profile_photo']) && file_exists($_SESSION['profile_photo']) ? $_SESSION['profile_photo'] : 'assets/img/pfp.png'; ?>" alt="Profile Photo">
+                            <img id="profilePreview" src="<?php
+                                                            $photo = isset($_SESSION['profile_photo']) && file_exists($_SESSION['profile_photo']) ? $_SESSION['profile_photo'] : 'assets/img/pfp.png';
+                                                            echo $photo . '?v=' . time();
+                                                            ?>" alt="Profile Photo">
                         </div>
                     </div>
                     <input type="file" name="profile_photo" class="file-input file-input-bordered w-1/4 mt-2" onchange="previewProfilePhoto(event)" />

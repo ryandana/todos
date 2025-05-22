@@ -52,7 +52,25 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>ZenDo</title>
     <link rel="stylesheet" href="public/output.css">
     <link rel="shortcut icon" href="assets/favicon/favicon-32x32.png" type="image/x-icon">
-    <script src="https://kit.fontawesome.com/2278b63586.js" crossorigin="anonymous"></script>
+     <link rel="stylesheet" href="css/all.css">
+    <style>
+        @keyframes fadeDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-down {
+            opacity: 0;
+            animation: fadeDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    </style>
 </head>
 
 <body class="relative">
@@ -126,7 +144,7 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <span class="text-sm font-medium"><?php echo htmlspecialchars($username); ?></span>
             <a href="edit_profile.php" class="avatar cursor-pointer">
                 <div class="w-10 rounded-full">
-                    <img src="<?php echo htmlspecialchars($profilePhoto); ?>" alt="Profile Photo">
+                    <img src="<?php echo htmlspecialchars($profilePhoto) . '?v=' . time(); ?>" alt="Profile Photo">
                 </div>
             </a>
         </div>
@@ -134,11 +152,22 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <div class="dock md:hidden">
         <button class="dock-active">
-            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><polyline points="1 11 12 2 23 11" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"></polyline><path d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path><line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></line></g></svg>
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
+                    <polyline points="1 11 12 2 23 11" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="2"></polyline>
+                    <path d="m5,13v7c0,1.105.895,2,2,2h10c1.105,0,2-.895,2-2v-7" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path>
+                    <line x1="12" y1="22" x2="12" y2="18" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></line>
+                </g>
+            </svg>
             <span class="dock-label">Home</span>
         </button>
         <button>
-            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt"><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle><path d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path></g></svg>
+            <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
+                    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
+                    <path d="m22,13.25v-2.5l-2.318-.966c-.167-.581-.395-1.135-.682-1.654l.954-2.318-1.768-1.768-2.318.954c-.518-.287-1.073-.515-1.654-.682l-.966-2.318h-2.5l-.966,2.318c-.581.167-1.135.395-1.654.682l-2.318-.954-1.768,1.768.954,2.318c-.287.518-.515,1.073-.682,1.654l-2.318.966v2.5l2.318.966c.167.581.395,1.135.682,1.654l-.954,2.318,1.768,1.768,2.318-.954c.518.287,1.073.515,1.654.682l.966,2.318h2.5l.966-2.318c.581-.167,1.135-.395,1.654-.682l2.318.954,1.768-1.768-.954-2.318c.287-.518.515-1.073.682-1.654l2.318-.966Z" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></path>
+                </g>
+            </svg>
             <span class="dock-label">Settings</span>
         </button>
     </div>
@@ -178,8 +207,11 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <div id="task-list" class="flex flex-col gap-4 w-full">
-            <?php foreach ($tasks as $task): ?>
-                <div class="task-item flex items-center justify-between p-4 bg-base-100 rounded-box shadow-sm" data-title="<?php echo htmlspecialchars(strtolower($task['title'])); ?>">
+            <?php $i = 0;
+            foreach ($tasks as $task): ?>
+                <div class="task-item fade-down flex items-center justify-between p-4 bg-base-100 rounded-box shadow-sm"
+                    data-title="<?php echo htmlspecialchars(strtolower($task['title'])); ?>"
+                    style="animation-delay: <?php echo ($i * 0.08); ?>s;">
                     <div class="flex flex-col gap-2">
                         <div class="flex items-center gap-2">
                             <p class="text-lg font-medium"><?php echo htmlspecialchars($task['title']); ?></p>
@@ -237,7 +269,8 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </dialog>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php $i++;
+            endforeach; ?>
         </div>
     </section>
 
