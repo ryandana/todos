@@ -1,6 +1,3 @@
-# Save the README content as a .md file
-
-readme_content = """
 # 🧘 ZenDo - Simple & Aesthetic To-Do List App
 
 ZenDo is a beautifully designed and minimalistic to-do list web application. Crafted for productivity and peace of mind, it allows you to manage your daily tasks effortlessly in an elegant interface.
@@ -35,15 +32,6 @@ ZenDo is a beautifully designed and minimalistic to-do list web application. Cra
 1. Clone or download the repository.
 2. Place the folder in your `htdocs` (or relevant server directory).
 3. Start your server and navigate to: `http://localhost/todos`
-
-### File Structure
-/todos
-├── home.php # Main UI
-├── create.php # Create task logic
-├── edit.php # Edit task logic
-├── delete.php # Delete task logic
-├── db.php # Database connection
-└── style.css # Custom styles
 
 ## 🛠️ Technologies Used
 
